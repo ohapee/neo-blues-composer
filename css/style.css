@@ -1,0 +1,671 @@
+/* ==========================================================================
+   NEO BLUES COMPOSER — ネオ・ブルース・コンポーザー
+   トーン＆マナー: ヴィンテージ・スモーキーバー × 真空管チューブアンプ × 真鍮ゴールド
+   ========================================================================== */
+
+:root {
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+
+  /* スモーキー・ブルース パレット */
+  --bg-main: #141110;             /* 深みのあるダークスモーク */
+  --bg-card: #201b18;             /* ヴィンテージアンプのウッドキャビネット */
+  --bg-sub: #2d2622;              /* 粗いレザー地 */
+  --bg-screen: #120f0e;           /* 真っ暗なステージ・モニター */
+  --bg-input: #1a1614;
+
+  --text-main: #f5ede6;           /* 温かみのあるオフホワイト */
+  --text-sub: #a8998d;            /* くすんだアンバーベージュ */
+  --text-muted: #73655c;
+
+  /* アクセントカラー */
+  --tube-orange: #ff7a18;         /* 真空管フィラメントのオレンジグロー */
+  --tube-bright: #ffaa33;
+  --brass-gold: #d4a34b;          /* ヴィンテージアンプの真鍮ゴールド */
+  --bourbon-amber: #f59e0b;       /* 琥珀色のバーボン */
+  --neon-blue: #38bdf8;           /* スモーキーバーのネオン管シアン */
+  --crimson-red: #e11d48;         /* クリムゾン・レッド */
+
+  --border-color: #3d332d;        /* 重厚なアイアンフレーム */
+  --border-brass: #c99738;
+
+  --shadow-main: 5px 5px 0px #000000;
+  --shadow-small: 2px 2px 0px #000000;
+  --shadow-active: 1px 1px 0px #000000;
+}
+
+html {
+  scroll-padding-top: env(safe-area-inset-top, 0px);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg-main);
+  background-image: 
+    radial-gradient(#2d2520 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255, 122, 24, 0.03) 0%, transparent 60%);
+  background-size: 16px 16px, 100% 100%;
+  color: var(--text-main);
+  font-family: "Space Grotesk", "Noto Sans JP", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  line-height: 1.6;
+}
+
+.wrap {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 24px 18px 80px;
+}
+
+/* ==========================================================================
+   ヘッダー（真空管チューブアンプ ＆ ロードハウス調）
+   ========================================================================== */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  background: var(--bg-card);
+  border: 2.5px solid var(--border-brass);
+  border-radius: 18px;
+  box-shadow: var(--shadow-main);
+  padding: 20px 26px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 真空管の熱を帯びたオレンジの光彩演出 */
+header::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #d4a34b, #ff7a18, #f59e0b, #e11d48, #d4a34b);
+}
+
+.brand-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.brand-icon {
+  width: 58px;
+  height: 58px;
+  border-radius: 14px;
+  border: 2px solid var(--border-brass);
+  box-shadow: 0 0 16px rgba(255, 122, 24, 0.35);
+  background: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.brand-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.brand h1 {
+  font-size: clamp(1.2rem, 2.4vw, 1.7rem);
+  margin: 0 0 4px;
+  color: var(--brass-gold);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+}
+
+.brand .tagline {
+  margin: 0;
+  font-size: 0.84rem;
+  color: var(--text-sub);
+  font-weight: 600;
+}
+
+.header-badge {
+  background: #110e0c;
+  color: var(--tube-bright);
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: 1.5px solid var(--tube-orange);
+  box-shadow: 0 0 10px rgba(255, 122, 24, 0.4);
+}
+
+/* ==========================================================================
+   2カラムレイアウト
+   ========================================================================== */
+.grid {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 24px;
+  align-items: start;
+}
+
+@media (max-width: 960px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* パネル */
+section.panel {
+  background: var(--bg-card);
+  border: 2px solid var(--border-color);
+  border-radius: 16px;
+  box-shadow: var(--shadow-main);
+  padding: 20px 22px;
+  margin-bottom: 22px;
+  position: relative;
+}
+
+h2 {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--brass-gold);
+  margin: 0 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px dashed #3a312a;
+  padding-bottom: 8px;
+  letter-spacing: 0.02em;
+}
+
+h2 .badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 10px;
+  background: rgba(255, 122, 24, 0.15);
+  color: var(--tube-bright);
+  border: 1px solid var(--tube-orange);
+  border-radius: 6px;
+}
+
+/* ==========================================================================
+   チップスタイル
+   ========================================================================== */
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 7px 13px;
+  border: 1.5px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--bg-sub);
+  color: var(--text-sub);
+  box-shadow: var(--shadow-small);
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.1s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.chip:hover {
+  background: #38302b;
+  color: var(--text-main);
+  border-color: var(--brass-gold);
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0px #000000;
+}
+
+.chip:active {
+  transform: translate(1px, 1px);
+  box-shadow: var(--shadow-active);
+}
+
+/* 選択されたチップ（真空管オレンジ発光） */
+.chip.on {
+  background: linear-gradient(180deg, #e66000 0%, #b34700 100%);
+  color: #ffffff;
+  border-color: #ff9800;
+  box-shadow: 0 0 10px rgba(255, 122, 24, 0.45);
+  transform: translate(1px, 1px);
+}
+
+#instChips .chip.on {
+  background: linear-gradient(180deg, #c99738 0%, #9e7323 100%);
+  color: #1a140b;
+  border-color: #ffd277;
+  box-shadow: 0 0 10px rgba(212, 163, 75, 0.45);
+}
+
+#hookChips .chip.on {
+  background: linear-gradient(180deg, #0284c7 0%, #0369a1 100%);
+  color: #ffffff;
+  border-color: #38bdf8;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.45);
+}
+
+#negativeChips .chip.on {
+  background: #403833;
+  color: #e5e5e5;
+  border-color: #73655c;
+}
+
+#durationChips .chip.on {
+  background: linear-gradient(180deg, #be123c 0%, #881337 100%);
+  color: #ffffff;
+  border-color: #fb7185;
+}
+
+/* ==========================================================================
+   フォーム・入力
+   ========================================================================== */
+.field {
+  margin-bottom: 16px;
+}
+
+.field:last-child {
+  margin-bottom: 0;
+}
+
+label.small {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-sub);
+  margin-bottom: 8px;
+}
+
+input[type="text"], select, textarea {
+  font-family: inherit;
+  font-size: 0.86rem;
+  font-weight: 600;
+  background: var(--bg-input);
+  color: var(--text-main);
+  border: 1.5px solid var(--border-color);
+  border-radius: 8px;
+  padding: 9px 12px;
+  width: 100%;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+input[type="text"]:focus, select:focus, textarea:focus {
+  border-color: var(--tube-orange);
+  box-shadow: 0 0 8px rgba(255, 122, 24, 0.35);
+}
+
+/* テンポ */
+.tempo-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+input[type="range"] {
+  flex: 1;
+  accent-color: var(--tube-orange);
+  cursor: pointer;
+}
+
+.tempo-readout {
+  font-size: 1.25rem;
+  min-width: 105px;
+  text-align: right;
+  color: var(--tube-bright);
+  font-weight: 800;
+  font-family: "Space Grotesk", sans-serif;
+  text-shadow: 0 0 8px rgba(255, 122, 24, 0.5);
+}
+
+.tempo-readout span {
+  font-size: 0.72rem;
+  color: var(--text-sub);
+}
+
+/* ==========================================================================
+   チューブアンプ調 12小節プレビュープレイヤー
+   ========================================================================== */
+.amp-player {
+  background: #110e0c;
+  border: 2px solid var(--border-brass);
+  border-radius: 12px;
+  box-shadow: inset 0 0 16px rgba(0,0,0,0.8), var(--shadow-small);
+  padding: 14px 18px;
+  margin-top: 16px;
+  color: #ffffff;
+  position: relative;
+}
+
+.amp-player::before {
+  content: "TUBE AMP 12-BAR BLUES PREVIEW // SHUFFLE ENGINE";
+  display: block;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--brass-gold);
+  letter-spacing: 0.08em;
+  margin-bottom: 10px;
+}
+
+.amp-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.play-btn {
+  font-family: inherit;
+  font-size: 0.86rem;
+  font-weight: 800;
+  padding: 10px 20px;
+  border: 2px solid #000000;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #ff8c1a 0%, #cc5500 100%);
+  color: #ffffff;
+  cursor: pointer;
+  box-shadow: 0 0 12px rgba(255, 122, 24, 0.4), var(--shadow-small);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.1s ease;
+}
+
+.play-btn:hover {
+  background: linear-gradient(180deg, #ffa333 0%, #e66000 100%);
+  transform: translate(-1px, -1px);
+}
+
+.play-btn.playing {
+  background: linear-gradient(180deg, #e11d48 0%, #9f1239 100%);
+  box-shadow: 0 0 14px rgba(225, 29, 72, 0.5);
+}
+
+.volume-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--text-sub);
+}
+
+.volume-row input {
+  width: 75px;
+  accent-color: var(--brass-gold);
+}
+
+/* 12小節真空管インジケーター */
+.bars-tracker {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.bar-bulb {
+  height: 24px;
+  background: #211a16;
+  border: 1.5px solid #3d332d;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: #63544a;
+  transition: all 0.1s ease;
+}
+
+.bar-bulb.active {
+  background: var(--tube-orange);
+  color: #ffffff;
+  border-color: #ffaa33;
+  box-shadow: 0 0 12px var(--tube-bright);
+  transform: scale(1.08);
+}
+
+/* ==========================================================================
+   ボタン群
+   ========================================================================== */
+.actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+button.primary, button.ghost {
+  font-family: inherit;
+  font-size: 0.86rem;
+  font-weight: 800;
+  padding: 11px 20px;
+  border-radius: 8px;
+  border: 2px solid var(--border-color);
+  cursor: pointer;
+  box-shadow: var(--shadow-small);
+  transition: all 0.1s ease;
+}
+
+button.primary {
+  background: linear-gradient(180deg, #ff8c1a 0%, #cc5500 100%);
+  color: #ffffff;
+  border-color: var(--border-brass);
+}
+
+button.primary:hover {
+  background: linear-gradient(180deg, #ffa333 0%, #e66000 100%);
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0px #000000;
+}
+
+button.ghost {
+  background: var(--bg-sub);
+  color: var(--text-main);
+}
+
+button.ghost:hover {
+  background: #38302b;
+  border-color: var(--brass-gold);
+  transform: translate(-1px, -1px);
+}
+
+/* プリセットアイテム */
+.preset-item {
+  display: inline-flex;
+  align-items: center;
+  box-shadow: var(--shadow-small);
+  border-radius: 8px;
+}
+
+.preset-item .chip {
+  box-shadow: none;
+  border-right: none;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.preset-del {
+  border: 1.5px solid var(--border-color);
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  background: var(--bg-sub);
+  color: var(--crimson-red);
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.85rem;
+  padding: 7px 9px;
+  line-height: 1;
+}
+
+.preset-del:hover {
+  background: var(--crimson-red);
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   出力・構成
+   ========================================================================== */
+.lang-toggle {
+  display: flex;
+  gap: 8px;
+}
+
+.lang-toggle button {
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 6px 14px;
+  border: 1.5px solid var(--border-color);
+  border-radius: 6px;
+  background: var(--bg-sub);
+  color: var(--text-sub);
+  cursor: pointer;
+}
+
+.lang-toggle button.on {
+  background: var(--tube-orange);
+  color: #ffffff;
+  border-color: var(--tube-bright);
+}
+
+textarea {
+  width: 100%;
+  min-height: 190px;
+  resize: vertical;
+  background: var(--bg-screen);
+  color: var(--text-main);
+  border: 1.5px solid var(--border-color);
+  border-radius: 10px;
+  padding: 13px 15px;
+  font-family: "SFMono-Regular", Consolas, "Noto Sans JP", monospace;
+  font-size: 0.86rem;
+  line-height: 1.6;
+  outline: none;
+}
+
+textarea:focus {
+  border-color: var(--tube-orange);
+}
+
+.textarea-mini {
+  min-height: 70px;
+  font-size: 0.82rem;
+}
+
+.copy-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.copy-row button {
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 800;
+  padding: 8px 18px;
+  border: 1.5px solid var(--border-brass);
+  border-radius: 6px;
+  background: linear-gradient(180deg, #d4a34b 0%, #9e7323 100%);
+  color: #1a140b;
+  cursor: pointer;
+  box-shadow: 2px 2px 0px #000000;
+  transition: all 0.1s ease;
+}
+
+.copy-row button:hover {
+  background: linear-gradient(180deg, #ffd277 0%, #c99738 100%);
+  transform: translate(-1px, -1px);
+}
+
+/* タイムライン画面 */
+.screen {
+  background: var(--bg-screen);
+  border: 1.5px solid var(--border-color);
+  border-radius: 10px;
+  max-height: 480px;
+  overflow-y: auto;
+}
+
+.screen-row {
+  display: grid;
+  grid-template-columns: 85px 1fr;
+  gap: 14px;
+  padding: 11px 15px;
+  border-bottom: 1px dashed #3a312a;
+  align-items: baseline;
+}
+
+.screen-row:last-child {
+  border-bottom: none;
+}
+
+.screen-time {
+  color: var(--tube-bright);
+  font-size: 0.84rem;
+  font-weight: 800;
+  font-family: "SFMono-Regular", Consolas, monospace;
+}
+
+.screen-body .lab {
+  color: var(--brass-gold);
+  font-size: 0.84rem;
+  font-weight: 800;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.screen-body .desc {
+  color: var(--text-sub);
+  font-size: 0.82rem;
+}
+
+/* トースト通知 */
+.flash {
+  position: fixed;
+  bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--bourbon-amber);
+  color: #110e0c;
+  border: 2px solid #ffffff;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.8);
+  border-radius: 999px;
+  padding: 10px 24px;
+  font-size: 0.86rem;
+  font-weight: 800;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s, transform 0.2s;
+  z-index: 1000;
+}
+
+.flash.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+footer {
+  margin-top: 36px;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  text-align: center;
+  line-height: 1.8;
+  font-weight: 600;
+}

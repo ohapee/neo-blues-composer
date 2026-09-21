@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#141110">
+  <meta name="description" content="伝統のブルースの魂×現代のバズ要素 ── 泥臭さと重低音が融合した新世代ブルース曲ジェネレーター">
+
+  <title>🎸 ネオ・ブルース・コンポーザー | バズる新世代ブルース制作</title>
+
+  <!-- Google Fonts: Space Grotesk & Noto Sans JP -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="assets/icon-192.png">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- ヘッダー（真空管チューブアンプ＆スモーキーバー調） -->
+  <header>
+    <div class="brand-wrapper">
+      <div class="brand-icon">
+        <img src="assets/icon-192.png" alt="ネオ・ブルース アイコン">
+      </div>
+      <div class="brand">
+        <h1>🎸 ネオ・ブルース・コンポーザー</h1>
+        <p class="tagline">泥臭さ × 現代重低音 ── これからバズる新世代ブルース曲ジェネレーター</p>
+      </div>
+    </div>
+    <div class="header-badge">TUBE OVERDRIVE // 808 BLUES</div>
+  </header>
+
+  <!-- メインコンテンツ（2カラム） -->
+  <main class="grid">
+
+    <!-- 左カラム：設定パネル群 -->
+    <div class="column-left">
+
+      <!-- 1. ブルース・スタイル＆曲名 -->
+      <section class="panel">
+        <h2>1. スタイル＆世界観 <span class="badge">STYLE</span></h2>
+
+        <div class="field">
+          <label class="small" for="trackTitleInput">曲名（任意・リリックやプロンプトの世界観に反映されます）</label>
+          <div style="display: flex; gap: 8px;">
+            <input type="text" id="trackTitleInput" placeholder="例: ミッドナイト・残業ブルース" value="ミッドナイト・残業ブルース">
+            <button type="button" class="chip" id="randomTitleBtn" title="曲名ガチャ" style="white-space: nowrap; padding: 0 14px;">🎲 ガチャ</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="small">ブルース・スタイル（1つ選択）</label>
+          <div id="styleChips" class="chip-row"></div>
+        </div>
+      </section>
+
+      <!-- 2. サウンド編成＆バズ・キラーフック -->
+      <section class="panel">
+        <h2>2. 編成＆キラーフック <span class="badge">HOOKS & SOUNDS</span></h2>
+
+        <div class="field">
+          <label class="small">楽器・音色（複数選択可）</label>
+          <div id="instChips" class="chip-row"></div>
+        </div>
+
+        <div class="field">
+          <label class="small">SNSバズ要素・キラーフック（複数選択可）</label>
+          <div id="hookChips" class="chip-row"></div>
+        </div>
+      </section>
+
+      <!-- 3. ボーカル・現代の悲哀テーマ・グルーヴ -->
+      <section class="panel">
+        <h2>3. ボーカル・歌詞・和声 <span class="badge">VOCAL & LYRIC</span></h2>
+
+        <div class="field">
+          <label class="small" for="vocalSelect">ボーカル・声質</label>
+          <select id="vocalSelect">
+            <option value="raspy_grit" selected>スモーキー＆しゃがれ声 (魂の咆哮・ハスキー)</option>
+            <option value="soulful_belting">ソウルフル・ベルティング (高音シャウト・熱唱)</option>
+            <option value="delta_spoken_holler">デルタ風スポークン＆ハラー (呟きと突然の叫び)</option>
+            <option value="female_blues_queen">ブルース・クイーン (艶やかで力強い女性ボーカル)</option>
+            <option value="instrumental">完全インストゥルメンタル (歌声なし・楽器のみ)</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label class="small" for="themeSelect">現代の悲哀・愚痴テーマ（AAB歌詞自動生成）</label>
+          <select id="themeSelect">
+            <option value="overwork_deadline" selected>残業・締め切り・終わらない仕事</option>
+            <option value="empty_wallet">金欠・物価高・空っぽの財布</option>
+            <option value="sns_burnout">スマホ・SNS疲れ・通知地獄</option>
+            <option value="midnight_lonely">真夜中の孤独・やるせなさ</option>
+            <option value="heartbreak_blues">大人の失恋・すれ違いの別れ</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label class="small" for="progSelect">和声・コード進行</label>
+          <select id="progSelect">
+            <option value="standard_12bar_e" selected>王道12小節ブルース (Eメジャー / ドライブ感・爽快)</option>
+            <option value="minor_blues_am">哀愁マイナーブルース (Aマイナー / 泣き・ダーク)</option>
+            <option value="heavy_riff_blues">1コード押し・リフ主体ブルース (泥臭いワンコードグルーヴ)</option>
+            <option value="slow_blues_g">じっくり泣かせるスローブルース (G / 6/8拍子・濃密な夜)</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label class="small">テンポ（BPM）</label>
+          <div class="tempo-row">
+            <input type="range" id="tempoRange" min="60" max="140" value="92">
+            <div class="tempo-readout" id="tempoReadout">92<span> BPM</span></div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="small">曲の長さ（尺）</label>
+          <div id="durationChips" class="chip-row"></div>
+        </div>
+
+        <div class="field">
+          <label class="small">除外指定（生々しさと泥臭さを守るネガティブ設定）</label>
+          <div id="negativeChips" class="chip-row"></div>
+        </div>
+
+        <!-- チューブアンプ 12小節プレビュープレイヤー -->
+        <div class="amp-player">
+          <div class="amp-controls">
+            <button type="button" class="play-btn" id="previewToggleBtn">▶ PLAY (12小節シャッフル試聴)</button>
+            <div class="volume-row">
+              <span>VOLUME</span>
+              <input type="range" id="previewVolume" min="0" max="1" step="0.05" value="0.75">
+            </div>
+          </div>
+          <!-- 12小節 真空管インジケーター -->
+          <div class="bars-tracker" id="barsTracker">
+            <div class="bar-bulb">1</div>
+            <div class="bar-bulb">2</div>
+            <div class="bar-bulb">3</div>
+            <div class="bar-bulb">4</div>
+            <div class="bar-bulb">5</div>
+            <div class="bar-bulb">6</div>
+            <div class="bar-bulb">7</div>
+            <div class="bar-bulb">8</div>
+            <div class="bar-bulb">9</div>
+            <div class="bar-bulb">10</div>
+            <div class="bar-bulb">11</div>
+            <div class="bar-bulb">12</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- プリセット・共有 -->
+      <section class="panel">
+        <h2>プリセット・共有 <span class="badge">PRESETS</span></h2>
+
+        <div class="field">
+          <label class="small" for="presetNameInput">設定の保存</label>
+          <div style="display: flex; gap: 8px;">
+            <input type="text" id="presetNameInput" placeholder="プリセット名 (空欄なら曲名で保存)">
+            <button type="button" class="primary" id="savePresetBtn" style="white-space: nowrap; padding: 0 16px;">💾 保存</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="small">保存済みプリセット一覧</label>
+          <div id="presetChips" class="chip-row"></div>
+        </div>
+
+        <div class="field" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px;">
+          <button type="button" class="chip" id="shareUrlBtn">🔗 共有URLをコピー</button>
+          <button type="button" class="chip" id="exportPresetBtn">📤 JSON書き出し</button>
+          <button type="button" class="chip" id="importPresetBtn">📥 JSON読み込み</button>
+          <input type="file" id="importPresetFile" accept=".json" style="display: none;">
+        </div>
+      </section>
+
+      <!-- アクションボタン群 -->
+      <div class="actions">
+        <button type="button" class="primary" id="genBtn">✨ プロンプト再生成</button>
+        <button type="button" class="ghost" id="randomBtn">🎲 おまかせ</button>
+        <button type="button" class="ghost" id="resetBtn">↺ リセット</button>
+      </div>
+
+    </div>
+
+    <!-- 右カラム：出力パネル群 -->
+    <div class="column-right">
+
+      <!-- AIプロンプト出力 -->
+      <section class="panel">
+        <h2>AI音楽プロンプト出力 <span class="badge">OUTPUT</span></h2>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
+          <div class="lang-toggle" id="langToggle">
+            <button type="button" class="on" data-lang="ja">日本語</button>
+            <button type="button" data-lang="en">English</button>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <select id="aiTargetSelect" style="width: auto; padding: 5px 10px; font-size: 0.8rem;">
+              <option value="suno_udio" selected>Suno / Udio (タグ＆歌詞)</option>
+              <option value="flow">Google Flow Music (詳細指示)</option>
+              <option value="plain">シンプル文章形式</option>
+            </select>
+          </div>
+        </div>
+
+        <textarea id="promptOut" readonly spellcheck="false" placeholder="プロンプトがここに生成されます..."></textarea>
+        
+        <div class="copy-row">
+          <span style="font-size: 0.78rem; color: var(--text-sub);">SunoやUdioなどのAI音楽生成ツールにそのまま貼り付けて利用できます</span>
+          <button type="button" id="copyBtn">📋 プロンプトをコピー</button>
+        </div>
+
+        <!-- ネガティブプロンプト領域 -->
+        <div id="negativeSection" style="display: none; margin-top: 16px; border-top: 2px dashed #3a312a; padding-top: 14px;">
+          <label class="small" for="negativeOut">除外指示（Negative Prompt / Style Avoid）</label>
+          <textarea id="negativeOut" class="textarea-mini" readonly spellcheck="false"></textarea>
+          <div class="copy-row">
+            <span style="font-size: 0.78rem; color: var(--text-sub);">生々しさと泥臭さを保護するため、除外指定欄に入力してください</span>
+            <button type="button" id="copyNegBtn">📋 除外指示をコピー</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- タイムライン展開画面 -->
+      <section class="panel">
+        <h2>トラック展開タイムライン <span class="badge">TIMELINE</span></h2>
+        <div id="timeline" class="screen"></div>
+      </section>
+
+    </div>
+
+  </main>
+
+  <!-- フッター -->
+  <footer>
+    <p>🎸 <strong>ネオ・ブルース・コンポーザー</strong> ── 泥臭さ × 現代重低音のハイブリッド</p>
+    <p>ミシシッピ・デルタの魂と現代SNSのバズ要素を融合した次世代ブルースプロンプトジェネレーター<br>
+    Web Audio API によるチューブアンプ歪み＆12小節シャッフルリアルタイムプレビュー搭載 / PWA対応</p>
+  </footer>
+
+</div>
+
+<!-- トースト通知 -->
+<div id="flash" class="flash"></div>
+
+<!-- メインスクリプト -->
+<script type="module" src="js/app.js"></script>
+
+</body>
+</html>
