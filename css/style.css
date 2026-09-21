@@ -669,3 +669,157 @@ footer {
   line-height: 1.8;
   font-weight: 600;
 }
+
+/* ==========================================================================
+   PWA インストールボタン ＆ ガイドモーダル
+   ========================================================================== */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.install-pwa-btn {
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 800;
+  padding: 7px 16px;
+  border-radius: 999px;
+  border: 1.5px solid #ffaa33;
+  background: linear-gradient(180deg, #ff7a18 0%, #cc5500 100%);
+  color: #ffffff;
+  cursor: pointer;
+  box-shadow: 0 0 12px rgba(255, 122, 24, 0.6);
+  animation: pulseGlow 2s infinite ease-in-out;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.1s;
+}
+
+@keyframes pulseGlow {
+  0% { transform: scale(1); box-shadow: 0 0 8px rgba(255, 122, 24, 0.5); }
+  50% { transform: scale(1.03); box-shadow: 0 0 18px rgba(255, 170, 51, 0.8); }
+  100% { transform: scale(1); box-shadow: 0 0 8px rgba(255, 122, 24, 0.5); }
+}
+
+.install-guide-btn {
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1.5px solid var(--border-brass);
+  background: var(--bg-sub);
+  color: var(--brass-gold);
+  cursor: pointer;
+  box-shadow: var(--shadow-small);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.1s;
+}
+
+.install-guide-btn:hover {
+  background: #3a312a;
+  border-color: #ffd277;
+}
+
+/* モーダル */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 16px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.modal-overlay.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-box {
+  background: var(--bg-card);
+  border: 2px solid var(--border-brass);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.9), var(--shadow-main);
+  max-width: 520px;
+  width: 100%;
+  padding: 24px;
+  position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--brass-gold);
+  margin: 0 0 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 2px dashed #3a312a;
+  padding-bottom: 10px;
+}
+
+.modal-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  background: var(--bg-sub);
+  border: 1.5px solid var(--border-color);
+  color: var(--text-sub);
+  font-size: 1.1rem;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.1s;
+}
+
+.modal-close:hover {
+  background: var(--crimson-red);
+  color: #ffffff;
+}
+
+.guide-step {
+  background: #141110;
+  border: 1.5px solid var(--border-color);
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+}
+
+.guide-step h3 {
+  font-size: 0.92rem;
+  margin: 0 0 8px;
+  color: var(--tube-bright);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.guide-step ol {
+  margin: 0;
+  padding-left: 20px;
+  font-size: 0.85rem;
+  color: var(--text-sub);
+  line-height: 1.7;
+}
+
+.guide-step ol li strong {
+  color: var(--text-main);
+}

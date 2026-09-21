@@ -8,15 +8,22 @@
 
   <title>🎸 ネオ・ブルース・コンポーザー | バズる新世代ブルース制作</title>
 
+  <!-- PWA & Mobile Web App メタタグ -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="ネオブルース">
+  <meta name="application-name" content="ネオ・ブルース・コンポーザー">
+  <link rel="icon" type="image/png" href="assets/icon-192.png">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+
   <!-- Google Fonts: Space Grotesk & Noto Sans JP -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="css/style.css">
-  <link rel="manifest" href="manifest.json">
-  <link rel="icon" type="image/png" href="assets/icon-192.png">
-  <link rel="apple-touch-icon" href="assets/icon-192.png">
 </head>
 <body>
 
@@ -33,7 +40,18 @@
         <p class="tagline">泥臭さ × 現代重低音 ── これからバズる新世代ブルース曲ジェネレーター</p>
       </div>
     </div>
-    <div class="header-badge">TUBE OVERDRIVE // 808 BLUES</div>
+    
+    <div class="header-actions">
+      <!-- PWAインストール実行ボタン（Android/PC Chrome対応） -->
+      <button type="button" class="install-pwa-btn" id="installPwaBtn" style="display: none;">
+        📲 アプリをインストール
+      </button>
+      <!-- インストール手順ガイドボタン（iPhone/Android共通） -->
+      <button type="button" class="install-guide-btn" id="installGuideBtn">
+        📱 スマホに追加
+      </button>
+      <div class="header-badge">TUBE OVERDRIVE // 808 BLUES</div>
+    </div>
   </header>
 
   <!-- メインコンテンツ（2カラム） -->
@@ -249,8 +267,48 @@
 
 </div>
 
+<!-- スマホ追加・インストール手順モーダル -->
+<div class="modal-overlay" id="installModal">
+  <div class="modal-box">
+    <button type="button" class="modal-close" id="modalCloseBtn">&times;</button>
+    <h2 class="modal-title">📱 スマホへの追加（PWAインストール方法）</h2>
+
+    <div class="guide-step">
+      <h3>🍎 iPhone (Safari) の場合</h3>
+      <ol>
+        <li>画面下部の中央にある<strong>共有アイコン</strong>（四角形から上向き矢印が出ているマーク）をタップします。</li>
+        <li>メニューが開いたら、少し下にスクロールして<strong>「ホーム画面に追加」</strong>をタップします。</li>
+        <li>右上の<strong>「追加」</strong>をタップすると、ホーム画面に真空管アイコンが追加され、全画面アプリとして起動できます。</li>
+      </ol>
+    </div>
+
+    <div class="guide-step">
+      <h3>🤖 Android (Chrome) の場合</h3>
+      <ol>
+        <li>ヘッダーに表示される<strong>「📲 アプリをインストール」</strong>ボタンをタップします（直接インストールダイアログが開きます）。</li>
+        <li>または右上の<strong>メニュー（縦の3点リーダー）</strong>をタップし、<strong>「アプリをインストール」</strong>または<strong>「ホーム画面に追加」</strong>を選択します。</li>
+      </ol>
+    </div>
+
+    <div style="text-align: center; margin-top: 16px;">
+      <button type="button" class="primary" id="modalOkBtn" style="padding: 9px 24px;">了解しました</button>
+    </div>
+  </div>
+</div>
+
 <!-- トースト通知 -->
 <div id="flash" class="flash"></div>
+
+<!-- Service Worker 登録スクリプト -->
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js')
+        .then(reg => console.log('ServiceWorker registered:', reg.scope))
+        .catch(err => console.log('ServiceWorker registration failed:', err));
+    });
+  }
+</script>
 
 <!-- メインスクリプト -->
 <script type="module" src="js/app.js"></script>

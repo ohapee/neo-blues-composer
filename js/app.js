@@ -510,6 +510,61 @@ function init() {
     );
   });
 
+  // PWA インストール処理
+  let deferredPrompt = null;
+  const installPwaBtn = document.getElementById('installPwaBtn');
+  const installGuideBtn = document.getElementById('installGuideBtn');
+  const installModal = document.getElementById('installModal');
+  const modalCloseBtn = document.getElementById('modalCloseBtn');
+  const modalOkBtn = document.getElementById('modalOkBtn');
+
+  // すでにアプリとして起動しているかチェック
+  const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+  if (isStandalone) {
+    if (installPwaBtn) installPwaBtn.style.display = 'none';
+    if (installGuideBtn) installGuideBtn.style.display = 'none';
+  }
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    if (installPwaBtn && !isStandalone) {
+      installPwaBtn.style.display = 'inline-flex';
+    }
+  });
+
+  installPwaBtn?.addEventListener('click', async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === 'accepted') {
+      flash('アプリのインストールを開始しました！🎉');
+    }
+    deferredPrompt = null;
+    installPwaBtn.style.display = 'none';
+  });
+
+  window.addEventListener('appinstalled', () => {
+    if (installPwaBtn) installPwaBtn.style.display = 'none';
+    if (installGuideBtn) installGuideBtn.style.display = 'none';
+    flash('ホーム画面にインストールされました！📱');
+  });
+
+  // インストール手順モーダル開閉
+  installGuideBtn?.addEventListener('click', () => {
+    installModal?.classList.add('show');
+  });
+
+  const closeModal = () => {
+    installModal?.classList.remove('show');
+  };
+
+  modalCloseBtn?.addEventListener('click', closeModal);
+  modalOkBtn?.addEventListener('click', closeModal);
+  installModal?.addEventListener('click', (e) => {
+    if (e.target === installModal) closeModal();
+  });
+
   renderPresets();
   generate();
   saveLastState(state);
@@ -520,3 +575,4 @@ if (document.readyState === 'loading') {
 } else {
   init();
 }
+
