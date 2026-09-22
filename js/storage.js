@@ -1,9 +1,8 @@
-/**
- * ネオ・ブルース・コンポーザー - ストレージ＆共有管理
- */
+import { DEFAULT_PRESETS } from './data.js';
 
 const STORAGE_KEY_LAST = 'neo_blues_composer_last_state';
 const STORAGE_KEY_PRESETS = 'neo_blues_composer_presets';
+const STORAGE_KEY_DELETED = 'neo_blues_composer_deleted_presets';
 
 export function saveLastState(state) {
   try {
@@ -28,9 +27,25 @@ export function loadLastState() {
 export function getPresets() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY_PRESETS);
-    return raw ? JSON.parse(raw) : {};
+    const presets = raw ? JSON.parse(raw) : {};
+
+    const deletedRaw = localStorage.getItem(STORAGE_KEY_DELETED);
+    const deletedList = new Set(deletedRaw ? JSON.parse(deletedRaw) : []);
+
+    let needsSave = false;
+    for (const [key, val] of Object.entries(DEFAULT_PRESETS || {})) {
+      if (!presets[key] && !deletedList.has(key)) {
+        presets[key] = val;
+        needsSave = true;
+      }
+    }
+    if (needsSave) {
+      localStorage.setItem(STORAGE_KEY_PRESETS, JSON.stringify(presets));
+    }
+
+    return presets;
   } catch (e) {
-    return {};
+    return { ...(DEFAULT_PRESETS || {}) };
   }
 }
 
@@ -51,6 +66,13 @@ export function deletePreset(name) {
     const presets = getPresets();
     delete presets[name];
     localStorage.setItem(STORAGE_KEY_PRESETS, JSON.stringify(presets));
+
+    if (DEFAULT_PRESETS && DEFAULT_PRESETS[name]) {
+      const deletedRaw = localStorage.getItem(STORAGE_KEY_DELETED);
+      const deletedList = new Set(deletedRaw ? JSON.parse(deletedRaw) : []);
+      deletedList.add(name);
+      localStorage.setItem(STORAGE_KEY_DELETED, JSON.stringify([...deletedList]));
+    }
     return true;
   } catch (e) {
     return false;

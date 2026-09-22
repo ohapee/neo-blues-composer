@@ -47,6 +47,11 @@ function buildSunoUdioPrompt(state, style, vocal, prog, theme, insts, hooks, isE
   tags.push(prog.en);
   if (vocal.id !== 'instrumental') {
     tags.push(vocal.en);
+    if (vocal.id === 'hyper_kawaii_vocaloid') {
+      tags.push('Vocaloid', 'Japanese anime vocals', 'high-pitched synthetic voice', 'playful and bubbly');
+    } else if (vocal.id === 'yami_kawaii_vocaloid') {
+      tags.push('Vocaloid', 'dark emo Vocaloid', 'fragile whisper to distorted scream', 'melancholic angst');
+    }
   } else {
     tags.push('instrumental, no vocals');
   }
@@ -65,10 +70,17 @@ function buildSunoUdioPrompt(state, style, vocal, prog, theme, insts, hooks, isE
       lLines = isEn ? theme.lyrics.en : theme.lyrics.ja;
     }
 
+    let verseLabel = 'Verse 1 - 12-Bar Blues AAB Call & Response';
+    if (vocal.id === 'hyper_kawaii_vocaloid') {
+      verseLabel = 'Verse 1 - Hyper-Kawaii Vocaloid Rapid-Fire 12-Bar Blues AAB';
+    } else if (vocal.id === 'yami_kawaii_vocaloid') {
+      verseLabel = 'Verse 1 - Yami-Kawaii Vocaloid Whisper & Distorted Scream AAB';
+    }
+
     lyricsText = `
 [Intro - Explosive Killer Riff & Stomps]
-${hooks.some(h => h.id === 'raw_vocal_shout') ? '(Acapella Holler Shout)\n' : ''}
-[Verse 1 - 12-Bar Blues AAB Call & Response]
+${hooks.some(h => h.id === 'raw_vocal_shout') ? (vocal.id.includes('vocaloid') ? '(Vocaloid Piercing Intro Holler)\n' : '(Acapella Holler Shout)\n') : ''}
+[${verseLabel}]
 ${lLines.join('\n')}
 
 [Guitar Solo - Crying Bends & Heavy Low-End Groove]
@@ -140,7 +152,15 @@ function buildPlainPrompt(state, style, vocal, prog, theme, insts, hooks, isEn) 
 
 export function buildNegativePrompt(state) {
   const isEn = state.lang === 'en';
-  const selected = NEGATIVE_OPTIONS.filter(opt => state.negatives.has(opt.id));
+  const isVocaloid = state.vocalStyle === 'hyper_kawaii_vocaloid' || state.vocalStyle === 'yami_kawaii_vocaloid';
+
+  const selected = NEGATIVE_OPTIONS.filter(opt => {
+    if (!state.negatives.has(opt.id)) return false;
+    // ボカロボーカル選択時は、オートチューン除外指定を自動的に抑制してボカロの質感を保護
+    if (isVocaloid && opt.id === 'no_autotune') return false;
+    return true;
+  });
+
   if (selected.length === 0) return '';
 
   if (isEn) {
@@ -152,13 +172,28 @@ export function buildNegativePrompt(state) {
 export function buildTimelineData(state) {
   const durSec = Number(state.duration) || 60;
   const isEn = state.lang === 'en';
+  const vocalId = state.vocalStyle;
+
+  let verse30Desc = isEn ? 'Gritty vocal delivery answered note-for-note by crying guitar' : 'しゃがれ声の魂の叫びと、それに呼応するギターの掛け合い';
+  let verse60Desc = isEn ? 'AAB lyric delivery over driving shuffle rhythm section' : '跳ねるシャッフルリズムに乗せたAAB形式の現代ブルースリリック';
+  let peakFullDesc = isEn ? 'Maximum vocal intensity, full horns, driving bassline' : '限界まで叫ぶボーカル、ホーンセクションの乱舞、疾走するベース';
+
+  if (vocalId === 'hyper_kawaii_vocaloid') {
+    verse30Desc = isEn ? 'High-pitched hyper-kawaii Vocaloid rapid-fire vocals answered by fuzz guitar' : '超高音Hyper-Kawaiiボカロの早口と甘い歌声、それに呼応するファズギターの掛け合い';
+    verse60Desc = isEn ? 'Ultra-cute Vocaloid AAB delivery riding effortlessly over driving shuffle rhythm' : '跳ねるシャッフルリズムに乗せた超絶キュートなボカロAABリリック';
+    peakFullDesc = isEn ? 'Bubbly hyper-kawaii Vocaloid peak energy, full horns, driving bassline' : '限界までピコピコ歌い上げるHyper-Kawaiiボカロ、ホーンセクションの乱舞、疾走するベース';
+  } else if (vocalId === 'yami_kawaii_vocaloid') {
+    verse30Desc = isEn ? 'Fragile yami-kawaii whisper shifting into sudden distorted scream over crying slide guitar' : '儚い病みかわウィスパーから歪んだ叫びへと急変するボカロと咽び泣くスライドギター';
+    verse60Desc = isEn ? 'Dark vulnerable yami-kawaii Vocaloid AAB delivery over driving shuffle rhythm' : '跳ねるシャッフルリズムに乗せた心の闇を抉る病みかわボカロAABリリック';
+    peakFullDesc = isEn ? 'Distorted emotional breakdown yami-kawaii screams, full horns, driving bassline' : '感情が歪み崩壊する病みかわボカロの絶叫、ホーンセクションの乱舞、疾走するベース';
+  }
 
   if (durSec === 15) {
     return [
       {
         time: '0:00 - 0:04',
-        label: isEn ? 'Intro Hook' : '冒頭キラーリフ',
-        desc: isEn ? 'Immediate signature slide/fuzz guitar riff & acapella holler' : '冒頭1秒で耳を奪うスライド/ファズギターリフ ＆ 魂の咆哮'
+        label: isEn ? 'Intro Stomp' : 'イントロ・キラーリフ',
+        desc: isEn ? 'High-voltage fuzz guitar riff and massive porch stomp' : '爆音ファズギターのキラーリフと地響きストンプの一撃'
       },
       {
         time: '0:04 - 0:11',
@@ -183,7 +218,7 @@ export function buildTimelineData(state) {
       {
         time: '0:06 - 0:20',
         label: isEn ? 'Verse (AAB Call & Response)' : 'AAB歌唱（コール＆レスポンス）',
-        desc: isEn ? 'Gritty vocal delivery answered note-for-note by crying guitar' : 'しゃがれ声の魂の叫びと、それに呼応するギターの掛け合い'
+        desc: verse30Desc
       },
       {
         time: '0:20 - 0:30',
@@ -203,7 +238,7 @@ export function buildTimelineData(state) {
       {
         time: '0:10 - 0:28',
         label: isEn ? 'Verse 1 (12-Bar Cycle)' : '第1コーラス（12小節展開）',
-        desc: isEn ? 'AAB lyric delivery over driving shuffle rhythm section' : '跳ねるシャッフルリズムに乗せたAAB形式の現代ブルースリリック'
+        desc: verse60Desc
       },
       {
         time: '0:28 - 0:48',
@@ -243,7 +278,7 @@ export function buildTimelineData(state) {
     {
       time: '2:00 - 2:40',
       label: isEn ? 'Final Verse & Peak' : '最終コーラス＆大団円',
-      desc: isEn ? 'Maximum vocal intensity, full horns, driving bassline' : '限界まで叫ぶボーカル、ホーンセクションの乱舞、疾走するベース'
+      desc: peakFullDesc
     },
     {
       time: '2:40 - 3:00',

@@ -206,6 +206,17 @@ class NeoBluesAudioEngine {
     if (beat === 2 && (bar % 2 === 1 || hasHarmonica)) {
       this.playBluesLick(time + beatDuration * 0.5, chord.root * 2);
     }
+
+    // 5. ボカロボーカル選択時のピコピコ／病みかわアルペジオ演出
+    if (state.vocalStyle === 'hyper_kawaii_vocaloid') {
+      if (beat === 1 || beat === 3) {
+        this.playKawaiiBlip(time + beatDuration * 0.3, chord.root * 4);
+      }
+    } else if (state.vocalStyle === 'yami_kawaii_vocaloid') {
+      if (beat === 3) {
+        this.playYamiGlitch(time + beatDuration * 0.5, chord.root * 3);
+      }
+    }
   }
 
   // キックドラム（アコースティック/808ハイブリッド）
@@ -358,6 +369,46 @@ class NeoBluesAudioEngine {
 
     osc.start(time);
     osc.stop(time + 0.36);
+  }
+
+  // Hyper-Kawaii ボカロ風の超高音ピコピコシンセ演出
+  playKawaiiBlip(time, freq) {
+    if (!this.ctx) return;
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+
+    osc.type = 'square';
+    osc.frequency.setValueAtTime(freq, time);
+    osc.frequency.exponentialRampToValueAtTime(freq * 1.5, time + 0.08);
+
+    gain.gain.setValueAtTime(0.12, time);
+    gain.gain.exponentialRampToValueAtTime(0.001, time + 0.1);
+
+    osc.connect(gain);
+    gain.connect(this.masterGain);
+
+    osc.start(time);
+    osc.stop(time + 0.11);
+  }
+
+  // Yami-Kawaii ボカロ風の不安定なピッチベンド・グリッチ演出
+  playYamiGlitch(time, freq) {
+    if (!this.ctx) return;
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(freq * 1.33, time);
+    osc.frequency.linearRampToValueAtTime(freq * 0.9, time + 0.15);
+
+    gain.gain.setValueAtTime(0.15, time);
+    gain.gain.exponentialRampToValueAtTime(0.001, time + 0.2);
+
+    osc.connect(gain);
+    gain.connect(this.driveNode);
+
+    osc.start(time);
+    osc.stop(time + 0.22);
   }
 }
 

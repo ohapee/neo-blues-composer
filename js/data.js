@@ -89,6 +89,18 @@ export const VOCAL_STYLES = [
     en: 'commanding, sultry female blues queen vocal filled with swagger, heartbreak, and iron resilience'
   },
   {
+    id: 'hyper_kawaii_vocaloid',
+    label: 'Hyper-Kawaii ボカロボーカル (超絶キュート・ピコピコ電波声)',
+    ja: 'とびきりキュートで超高音なHyper-Kawaiiボーカロイド。早口や甘いアニメ声で泥臭いブルースを歌い上げる、強烈なギャップ萌えの電波系ボカロ。',
+    en: 'ultra-cute high-pitched hyper-kawaii Vocaloid vocal, bubbly sweet anime girl synthetic voice contrasting sharply against heavy gritty blues riffs'
+  },
+  {
+    id: 'yami_kawaii_vocaloid',
+    label: 'Yami-Kawaii ボカロボーカル (病みかわ・繊細ウィスパー＆狂気叫び)',
+    ja: '儚げで壊れそうなウィスパーボイスと、突如感情を爆発させて歪む叫びが交錯する病みかわボカロ。心の傷やリアルな痛みをブルースのグルーヴに乗せて歌う。',
+    en: 'fragile, emotionally unstable yami-kawaii dark Vocaloid vocal, shifting between delicate melancholic whispers and sudden distorted manic screams over blues groove'
+  },
+  {
     id: 'instrumental',
     label: '完全インストゥルメンタル (歌声なし・楽器のみ)',
     ja: 'ギターやハーモニカが歌の代わりにリードを執る、骨太なインストゥルメンタル。',
@@ -279,5 +291,73 @@ export const TITLE_SUGGESTIONS = [
   '冷めたブラックコーヒーの嘆き',
   'ラストトレイン・シャッフル',
   '真夜中のファズ・ギター',
-  '808とブルースハープの夜'
+  '808とブルースハープの夜',
+  '電波少女の真夜中デッドライン・ブルース',
+  '通知地獄のHyper-Kawaiiシャッフル',
+  '病みかわボカロの午前4時ブルース',
+  'ぴこぴこ失恋ハイウェイ・ブルース'
 ];
+
+// 標準プリセット定義
+export const DEFAULT_PRESETS = {
+  '🎀 電波系Hyper-Kawaiiブルース': {
+    trackTitle: '電波少女の真夜中デッドライン・ブルース',
+    style: 'cyber_trap_blues',
+    vocalStyle: 'hyper_kawaii_vocaloid',
+    insts: ['sub_808_bass', 'fuzz_electric_gtr', 'slide_resonator'],
+    hooks: ['intro_killer_riff', 'heavy_sub_kick', 'call_and_response'],
+    lyricTheme: 'overwork_deadline',
+    customLyrics: '',
+    progression: 'standard_12bar_e',
+    tempo: 105,
+    duration: '60',
+    lang: 'ja',
+    aiTarget: 'suno_udio',
+    negatives: ['no_kpop_polish', 'no_distracting_chatter']
+  },
+  '🖤 病みかわYami-Kawaiiブルース': {
+    trackTitle: '病みかわボカロの午前4時ブルース',
+    style: 'neo_garage_fuzz',
+    vocalStyle: 'yami_kawaii_vocaloid',
+    insts: ['fuzz_electric_gtr', 'crying_harmonica', 'sub_808_bass'],
+    hooks: ['raw_vocal_shout', 'call_and_response', 'intro_killer_riff'],
+    lyricTheme: 'sns_burnout',
+    customLyrics: '',
+    progression: 'minor_blues_am',
+    tempo: 84,
+    duration: '60',
+    lang: 'ja',
+    aiTarget: 'suno_udio',
+    negatives: ['no_kpop_polish', 'no_distracting_chatter']
+  },
+  '🔥 ネオ・ガレージ・爆音ファズ': {
+    trackTitle: 'ミッドナイト・残業ブルース',
+    style: 'neo_garage_fuzz',
+    vocalStyle: 'raspy_grit',
+    insts: ['slide_resonator', 'fuzz_electric_gtr', 'crying_harmonica', 'sub_808_bass'],
+    hooks: ['intro_killer_riff', 'heavy_sub_kick', 'call_and_response'],
+    lyricTheme: 'overwork_deadline',
+    customLyrics: '',
+    progression: 'standard_12bar_e',
+    tempo: 92,
+    duration: '60',
+    lang: 'ja',
+    aiTarget: 'suno_udio',
+    negatives: ['no_autotune', 'no_cheap_synth']
+  },
+  '⚡ サイバー・トラップ・808': {
+    trackTitle: '808とブルースハープの夜',
+    style: 'cyber_trap_blues',
+    vocalStyle: 'delta_spoken_holler',
+    insts: ['slide_resonator', 'sub_808_bass', 'fuzz_electric_gtr'],
+    hooks: ['heavy_sub_kick', 'intro_killer_riff'],
+    lyricTheme: 'empty_wallet',
+    customLyrics: '',
+    progression: 'heavy_riff_blues',
+    tempo: 80,
+    duration: '60',
+    lang: 'ja',
+    aiTarget: 'suno_udio',
+    negatives: ['no_autotune', 'no_cheap_synth']
+  }
+};
